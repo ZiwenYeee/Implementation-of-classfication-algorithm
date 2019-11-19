@@ -11,7 +11,6 @@ class Lasso_CR(object):
         self.intercept = 0
         self.lambda_ = 0
         self.max_iter = 500
-        self.lambda_ = kwargs.get('lambda_')
         
     def standardlize(self, data):
         return (data - data.mean(axis = 0))/data.std(axis = 0)
@@ -47,9 +46,16 @@ class Lasso_CR(object):
 
     def fit(self, X, y):
         X_std = self.standardlize(X)
-        max_iter = 500
+        max_iter = 1000
         self.beta = np.ones(X.shape[1])/X_std.shape[1]
         self.intercept = 0
         for iteration in range(max_iter):
             self.beta, self.intercept = self.coordinate_descent(X_std, y, self.beta, self.intercept, self.lambda_)
-
+    def predict_proba(self, X):
+        linear = self.intercept + np.sum(self.beta * X, axis = 1)
+        prob = 1/(1 + np.exp(-linear))
+        return prob
+    def predict(self, X):
+        linear = self.intercept + np.sum(self.beta * X, axis = 1)
+        prob = 1/(1 + np.exp(-linear))
+        return np.where(prob > 0.5, 1, 0)

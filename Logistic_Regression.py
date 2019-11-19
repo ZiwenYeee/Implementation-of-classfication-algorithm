@@ -4,10 +4,6 @@ import gc
 import numpy as np
 import pandas as pd
 
-
-data = load_breast_cancer().data
-target = load_breast_cancer().target
-
 class Logistic_Regression(object):
     def __init__(self, eta = 0.005, tol = 10e-4):
         self.eta = eta

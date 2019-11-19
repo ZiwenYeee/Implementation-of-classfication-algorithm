@@ -59,6 +59,7 @@ class Logistic_Regression(object):
         return beta, new_intercept
     def fit(self, X, y, method = 'newton'):
         self.beta = np.zeros(X.shape[1])
+        data_std = self.standard_function(X)
         for i in range(1000):
             converge = 1
             beta_p, intercept_p = self.beta, self.intercept

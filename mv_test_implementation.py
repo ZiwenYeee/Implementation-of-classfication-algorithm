@@ -5,7 +5,7 @@ import pandas as pd
 from numba import jit
 
 @jit(nopython = True)
-def mv_cal_sorted(x:np.array, y:np.array, y_unique:float, n:float):
+def mv_cal_sorted(x:np.array, y:np.array, y_unique:np.array, n:float):
     x_idx = np.argsort(x) #O(nlogn)
     y = y[x_idx]
     mv_test = np.zeros((len(y_unique), ))

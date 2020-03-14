@@ -1,3 +1,7 @@
+import gc
+import numpy as np
+import pandas as pd
+
 class KMeans():
     def __init__(self, max_round = 200, seed = 2):
         self.u = None

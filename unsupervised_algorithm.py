@@ -133,3 +133,30 @@ class Gaussian_Mixture_Model():
         for i in range(K):
             w[:, i] = pred[:, i] * alpha[i]/(np.sum(pred * alpha, axis = 1) + 1e-6)
         return np.argmax(w, axis = 1)
+
+class Principle_Compenent_Analysis(object):
+    def __init__(self):
+        self.var_ratio = 0.8
+        self.w = None
+        self.v = None
+    def standard_function(self, data):
+        return (data - np.mean(data, axis = 0))/np.std(data, axis = 0)
+    def fit(self, X):
+        X_std = self.standard_function(X)
+        w, v = np.linalg.eig(np.cov(X_std.T))
+        w_acc = 0
+        w_sum = np.sum(w)
+        for i in range(len(w)):
+            w_acc += w[i]/w_sum
+            if w_acc > self.var_ratio:
+                break
+        cols = [col for col in range(i)]
+        self.w = w[cols]
+        self.v = v[cols,:]
+    def transform(self, X):
+        X_transform = np.zeros((X.shape[0], self.v.shape[0]))
+        X_std = self.standard_function(X)
+        for i in range(len(self.w)):
+            X_transform[:, i] = np.dot(X_std, self.v[i, :])
+        return X_transform
+    

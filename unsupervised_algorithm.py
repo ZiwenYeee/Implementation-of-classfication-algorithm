@@ -51,8 +51,8 @@ class Gaussian_Mixture_Model():
         self.delta_list = []
     def Gaussian_init(self, X):
         K = self.K
-        n = data.shape[0]
-        m = data.shape[1]
+        n = X.shape[0]
+        m = X.shape[1]
         u = np.zeros((K, m))
         sigma = np.zeros((K, m, m))
         idx = np.array_split(np.arange(n), K)
@@ -106,8 +106,8 @@ class Gaussian_Mixture_Model():
             sigma += np.dot((X[i, :] - u).reshape(1,30).T, (X[i, :] - u).reshape(1,30)) * w[i]/num
         return sigma
     def fit(self, X):
-        n = data.shape[0]
-        m = data.shape[1]
+        n = X.shape[0]
+        m = X.shape[1]
         u, sigma = self.Gaussian_init(X)
         w, num, pred = self.E_Step(X, u, sigma)
         u, sigma = self.M_Step(X, w, num)
